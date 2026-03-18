@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Snippet | NullDrop</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        body { background: #0f0f0f; color: #e0e0e0; padding: 40px; font-family: 'Segoe UI', sans-serif; }
+        
+        footer {
+            width: 100%;
+            padding: 40px 0;
+            background: #0a0a0a;
+            border-top: 1px solid #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .footer-links a { color: #888; text-decoration: none; margin: 0 10px; transition: 0.3s; }
+        .footer-links a:hover { color: #007bff; }
+        .heart { color: #ff4444; }
+        .container {
+            width: 95%;
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        .burn-notice { 
+            background: rgba(255, 68, 68, 0.1); 
+            color: #ff4444; 
+            padding: 15px; 
+            border-radius: 8px; 
+            border: 1px solid #ff4444; 
+            margin-bottom: 20px; 
+            display: none; 
+            font-size: 14px;
+        }
+
+        /* The Code Box Styling */
+        pre[class*="language-"] {
+            width: 100%;
+            min-height: 400px; 
+            padding: 30px !important; 
+            border-radius: 12px;
+            border: 1px solid #2a2a2a;
+            background: #161616 !important;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            
+            white-space: pre !important; 
+            overflow: auto; 
+        }
+
+        code[class*="language-"] {
+            font-size: 15px;
+            line-height: 1.6;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .back-link {
+            color: #007bff;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            font-family: monospace;
+            font-weight: bold;
+        }
+        .back-link:hover { color: #00ff88; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="burnNotice" class="burn-notice">⚠️ This paste was set to Self-Destruct. It has been removed from the database after this view.</div>
+        
+        <pre id="preBlock" class="language-javascript"><code id="codeBlock">Fetching encrypted data...</code></pre>
+        
+        <a href="/" class="back-link">← New Paste</a>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script> <script>
+        const id = window.location.pathname.split('/').pop();
+        const codeElement = document.getElementById('codeBlock');
+        const preBlock = document.getElementById('preBlock');
+
+        fetch('/api/paste/' + id)
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    codeElement.textContent = "// ERROR: Paste expired or already burned.";
+                } else {
+                    const lang = data.language || 'javascript';
+                    preBlock.className = `language-${lang}`;
+                    codeElement.className = `language-${lang}`;
+
+                    codeElement.textContent = data.content;
+                    
+                    if (data.burned) document.getElementById('burnNotice').style.display = 'block';
+
+                    Prism.highlightElement(codeElement);
+                }
+            })
+            .catch(err => {
+                codeElement.textContent = "// Connection error to NullDrop API.";
+            });
+    </script>
+</body>
+   <footer>
+        <div class="footer-links">
+            <a href="/">New Paste</a>
+            <a href="/changelog">Changelogs</a>
+            <a href="/api">API</a>
+        </div>
+        
+        <div>
+            &copy; 2026 <strong>NullDrop</strong>. Built with <span class="heart">♥</span> by Vedad.
+        </div>
+    </footer>
+</html>

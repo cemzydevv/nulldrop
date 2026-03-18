@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API - NullDrop</title>
+    <style>
+        body { 
+            background: #121212; 
+            color: #e0e0e0; 
+            font-family: 'Segoe UI', sans-serif; 
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; 
+            padding: 50px;
+            text-align: center;
+        }
+
+        .status-box {
+            background: #1e1e1e;
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        h1 { color: #007bff; margin-bottom: 10px; }
+        p { color: #888; line-height: 1.6; }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            border: 1px solid #ffc107;
+        }
+
+        .back-btn {
+            margin-top: 30px;
+            display: inline-block;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-btn:hover { text-decoration: underline; }
+
+        footer {
+            width: 100%;
+            padding: 40px 0;
+            background: #0a0a0a;
+            border-top: 1px solid #222;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-content">
+        <div class="status-box">
+            <span class="badge">In Development</span>
+            <span class="icon">⚙️</span>
+            <h1>API Access</h1>
+            <p>
+                We are currently building a powerful API so you can create, 
+                read, and manage your pastes programmatically.
+            </p>
+            <p style="font-size: 13px;">
+                Documentation and API keys will be available soon. 
+                Check back in a few weeks!
+            </p>
+            <a href="/" class="back-btn">← Back to Editor</a>
+        </div>
+    </div>
+
+    <footer>
+        <div style="letter-spacing: 1px;">
+            &copy; 2026 <strong>NullDrop</strong>. Built with ♥ by Vedad.
+        </div>
+    </footer>
+
+</body>
+</html>

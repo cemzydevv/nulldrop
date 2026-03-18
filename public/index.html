@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NullDrop - Code Sharing</title>
+    <style>
+        body { 
+            background: #0f0f0f; 
+            color: #e0e0e0; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px 20px;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            font-family: 'Consolas', monospace;
+            background: linear-gradient(90deg, #007bff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            font-size: 2.8rem;
+            letter-spacing: -1px;
+        }
+
+        .container { 
+            width: 100%; 
+            max-width: 900px; 
+            display: flex; 
+            flex-direction: column; 
+        }
+
+        textarea { 
+            height: 400px; 
+            background: #181818; 
+            color: #fff; 
+            border: 1px solid #2a2a2a; 
+            padding: 20px; 
+            border-radius: 8px; 
+            font-family: 'Consolas', 'Monaco', monospace; 
+            font-size: 16px; 
+            outline: none; 
+            transition: 0.3s; 
+            resize: vertical;
+        }
+
+        textarea:focus { border-color: #007bff; box-shadow: 0 0 15px rgba(0, 123, 255, 0.1); }
+
+        .options-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #181818;
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #2a2a2a;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        select {
+            background: #252525;
+            color: white;
+            border: 1px solid #333;
+            padding: 10px;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .burn-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #888;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .burn-option input { accent-color: #ff4444; width: 18px; height: 18px; }
+
+        .info { 
+            display: flex; 
+            justify-content: flex-start; 
+            margin-top: 10px; 
+            color: #555; 
+            font-size: 12px; 
+        }
+
+        button.main-btn { 
+            align-self: center; 
+            margin-top: 30px; 
+            padding: 16px 60px; 
+            background: #007bff; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 16px;
+            transition: 0.2s; 
+        }
+
+        button.main-btn:hover { background: #0056b3; transform: translateY(-2px); }
+
+        #link { margin-top: 25px; text-align: center; }
+        .copy-wrapper {
+            display: inline-flex;
+            align-items: center;
+            background: #181818;
+            border: 1px solid #333;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+        .copy-btn {
+            background: none;
+            border: none;
+            color: #00ff88;
+            cursor: pointer;
+            font-weight: bold;
+            margin-left: 10px;
+            min-width: 60px;
+        }
+
+        footer {
+            width: 100%;
+            padding: 40px 0;
+            background: #0a0a0a;
+            border-top: 1px solid #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .footer-links a { color: #888; text-decoration: none; margin: 0 10px; transition: 0.3s; }
+        .footer-links a:hover { color: #007bff; }
+        .heart { color: #ff4444; }
+    </style>
+</head>
+<body>
+
+    <div class="main-content">
+        <h1>NULL//DROP</h1>
+        
+        <div class="container">
+            <textarea id="content" placeholder="Paste your code or secrets here..." oninput="updateCount()"></textarea>
+            
+            <div class="options-bar">
+                <select id="language">
+                    <option value="javascript">JavaScript</option>
+                    <option value="python">Python</option>
+                    <option value="markup">HTML</option>
+                    <option value="css">CSS</option>
+                    <option value="sql">SQL</option>
+                    <option value="plaintext">Text Only</option>
+                </select>
+
+                <select id="expiry">
+                    <option value="7d">Expires in 7 Days</option>
+                    <option value="1d">Expires in 24 Hours</option>
+                    <option value="1h">Expires in 1 Hour</option>
+                </select>
+
+                <label class="burn-option">
+                    <input type="checkbox" id="isBurned"> 🔥 Burn on Read
+                </label>
+            </div>
+
+            <div class="info">
+                <span id="charCount">0 / 100,000 characters</span>
+            </div>
+            
+            <button class="main-btn" onclick="savePaste()">GENERATE LINK</button>
+            <div id="link"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-links">
+            <a href="/">New Paste</a>
+            <a href="/changelog">Changelogs</a>
+            <a href="/api">API</a>
+        </div>
+        
+        <div>
+            &copy; 2026 <strong>NullDrop</strong>. Built with <span class="heart">♥</span> by Vedad.
+        </div>
+    </footer>
+
+    <script>
+        function updateCount() {
+            const len = document.getElementById('content').value.length;
+            document.getElementById('charCount').innerText = `${len.toLocaleString()} / 100,000 characters`;
+        }
+
+        async function savePaste() {
+            const text = document.getElementById('content').value;
+            const expiryValue = document.getElementById('expiry').value;
+            const isBurnedValue = document.getElementById('isBurned').checked;
+            const languageValue = document.getElementById('language').value;
+            const linkDiv = document.getElementById('link');
+            
+            if(!text.trim()) {
+                linkDiv.innerHTML = `<span style="color:#ff4444">Input is empty!</span>`;
+                return;
+            }
+
+            linkDiv.innerHTML = "Encrypting...";
+
+            try {
+                const res = await fetch('/api/save', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        content: text,
+                        expiry: expiryValue,
+                        isBurned: isBurnedValue,
+                        language: languageValue
+                    })
+                });
+                
+                const data = await res.json();
+                
+                if (data.error) {
+                    linkDiv.innerHTML = `<span style="color:#ff4444">${data.error}</span>`;
+                } else {
+                    const url = window.location.origin + '/v/' + data.id;
+                    linkDiv.innerHTML = `
+                        <div class="copy-wrapper">
+                            <span style="color: #00ff88; font-family: monospace;">${url}</span>
+                            <button class="copy-btn" id="copyBtn" onclick="copyToClipboard('${url}')">COPY</button>
+                        </div>
+                    `;
+                }
+            } catch (e) {
+                linkDiv.innerHTML = `<span style="color:#ff4444">Server is offline.</span>`;
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copyBtn');
+                btn.innerText = "COPIED!";
+                setTimeout(() => { btn.innerText = "COPY"; }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
